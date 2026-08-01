@@ -1,22 +1,50 @@
 # Data Flow
 
-Resume
-Audio
-Video
-Code
-Answers
+Candidate
 
 ↓
 
-Preprocessing
+Login
 
 ↓
 
-Feature Extraction
+Resume Upload
 
 ↓
 
-Model Inference
+Resume Analysis
+
+↓
+
+Interview Start
+
+↓
+
+Question Generation
+
+↓
+
+Answer Submission
+
+↓
+
+NLP Evaluation
+
+↓
+
+Speech Analysis
+
+↓
+
+Vision Analysis
+
+↓
+
+Coding Evaluation
+
+↓
+
+Feature Aggregation
 
 ↓
 
@@ -24,8 +52,16 @@ Fusion Network
 
 ↓
 
-Interview Performance Score
+Performance Score
 
 ↓
 
-Recommendations
+Explainability Layer
+
+↓
+
+Learning Recommendation Engine
+
+↓
+
+Final Report
