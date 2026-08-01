@@ -1,13 +1,59 @@
-# Dataset Annotation
+# Annotation Strategy
+
+## Answer Evaluation
 
 Labels
 
-- Accuracy
+1
+
+2
+
+3
+
+4
+
+5
+
+Dimensions
+
+- Technical Accuracy
 - Completeness
 - Relevance
+
+---
+
+## Speech Evaluation
+
+Labels
+
+1
+
+2
+
+3
+
+4
+
+5
+
+Dimensions
+
 - Fluency
+- Clarity
+- Pause Quality
 
-Annotation Guidelines
+---
 
-- Consistent Rubric
-- Multiple Review Passes
+## Coding Evaluation
+
+Labels
+
+- Correctness
+- Complexity
+- Maintainability
+
+---
+
+## Rules
+
+Every annotation uses the same rubric.

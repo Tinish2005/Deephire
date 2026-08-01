@@ -1,21 +1,59 @@
 # Training Strategy
 
-## NLP
+## DistilBERT
 
-Fine-Tune DistilBERT
+Fine-Tune
 
----
+Question + Answer
 
-## Speech
+↓
 
-Train CNN on Spectrograms
+DistilBERT
 
----
+↓
 
-## Fusion
-
-Train MLP using outputs from all models
+Evaluation Labels
 
 ---
 
-Evaluation performed using validation and test sets.
+## Speech CNN
+
+Audio
+
+↓
+
+Spectrogram
+
+↓
+
+CNN
+
+↓
+
+Speech Quality Labels
+
+---
+
+## Fusion Network
+
+Text Features
+
++
+
+Speech Features
+
++
+
+Vision Features
+
++
+
+Coding Features
+
+↓
+
+MLP
+
+↓
+
+Interview Score

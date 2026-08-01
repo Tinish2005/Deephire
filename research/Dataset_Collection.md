@@ -1,13 +1,43 @@
 # Dataset Collection Strategy
 
-Sources
+## Sources
 
-- Kaggle
-- Hugging Face Datasets
-- Public Research Datasets
+Kaggle
 
-Methods
+Hugging Face
 
-- Collection
-- Cleaning
-- Validation
+Academic Datasets
+
+Public Speech Datasets
+
+Programming Assessment Datasets
+
+---
+
+## Collection Rules
+
+- Publicly Available
+- Research Friendly
+- Documented Labels
+
+---
+
+## Pipeline
+
+Download
+
+↓
+
+Validation
+
+↓
+
+Cleaning
+
+↓
+
+Versioning
+
+↓
+
+Training Dataset
