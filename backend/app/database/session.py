@@ -1,6 +1,11 @@
+import os
+
+from dotenv import load_dotenv
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import os
+
+load_dotenv()
 
 DATABASE_URL = (
     f"postgresql://{os.getenv('POSTGRES_USER')}:"
@@ -10,6 +15,7 @@ DATABASE_URL = (
     f"{os.getenv('POSTGRES_DB')}"
 )
 
+print("PORT =", os.getenv("POSTGRES_PORT"))
 engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(
