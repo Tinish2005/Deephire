@@ -1,44 +1,83 @@
 import { useEffect, useState } from "react";
 
-import { getInterviewQuestions }
-    from "../services/interviewService";
+import {
+    getInterviewQuestions
+} from "../services/interviewService";
+
+import {
+    evaluateAnswer
+} from "../services/evaluationService";
 
 function Interview() {
 
-    const [questions, setQuestions] =
-        useState([]);
+    const [questions, setQuestions] = useState([]);
 
-    const [loading, setLoading] =
-        useState(true);
+    const [loading, setLoading] = useState(true);
+
+    const [answers, setAnswers] = useState({});
 
     useEffect(() => {
 
-        const loadQuestions =
-            async () => {
+        const loadQuestions = async () => {
 
-                try {
+            try {
 
-                    const response =
-                        await getInterviewQuestions();
+                const response =
+                    await getInterviewQuestions();
 
-                    setQuestions(
-                        response.questions
-                    );
+                setQuestions(
+                    response.questions
+                );
 
-                } catch (error) {
+            } catch (error) {
 
-                    console.error(error);
+                console.error(error);
 
-                } finally {
+            } finally {
 
-                    setLoading(false);
+                setLoading(false);
 
-                }
-            };
+            }
+        };
 
         loadQuestions();
 
     }, []);
+
+    const submitAnswer = async (
+        question,
+        index
+    ) => {
+
+        try {
+
+            const answer =
+                answers[index] || "";
+
+            const result =
+                await evaluateAnswer(
+                    question,
+                    answer
+                );
+
+            console.log(
+                `Question ${index + 1} Result:`,
+                result
+            );
+
+            alert(
+                `Score: ${result.score}/10\n\nFeedback: ${result.feedback}`
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Answer evaluation failed."
+            );
+        }
+    };
 
     if (loading) {
 
@@ -65,7 +104,7 @@ function Interview() {
                         <div
                             key={index}
                             style={{
-                                marginBottom: "15px",
+                                marginBottom: "20px",
                                 padding: "15px",
                                 border: "1px solid #ddd",
                                 borderRadius: "10px"
@@ -78,10 +117,43 @@ function Interview() {
                             <p>
                                 {question}
                             </p>
+
+                            <textarea
+                                rows="4"
+                                style={{
+                                    width: "100%"
+                                }}
+                                value={
+                                    answers[index] || ""
+                                }
+                                onChange={(e) =>
+                                    setAnswers({
+                                        ...answers,
+                                        [index]:
+                                            e.target.value
+                                    })
+                                }
+                            />
+
+                            <br />
+                            <br />
+
+                            <button
+                                onClick={() =>
+                                    submitAnswer(
+                                        question,
+                                        index
+                                    )
+                                }
+                            >
+                                Submit Answer
+                            </button>
+
                         </div>
                     )
                 )
             }
+
         </div>
     );
 }

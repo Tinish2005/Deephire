@@ -1,12 +1,11 @@
-import Interview
-    from "./pages/Interview";
+import VoiceRecorder
+    from "./components/VoiceRecorder";
 
 function App() {
 
     return (
-        <Interview />
+        <VoiceRecorder />
     );
-
 }
 
 export default App;
