@@ -1,10 +1,10 @@
-import VoiceRecorder
-    from "./components/VoiceRecorder";
+import VisionTester
+    from "./components/VisionTester";
 
 function App() {
 
     return (
-        <VoiceRecorder />
+        <VisionTester />
     );
 }
 
