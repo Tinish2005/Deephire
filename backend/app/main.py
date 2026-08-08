@@ -4,6 +4,18 @@ from app.interview.routes import router as interview_router
 
 from app.auth.routes import router as auth_router
 from app.resume.routes import router as resume_router
+from app.evaluation.routes import (
+    router as evaluation_router
+)
+from app.audio.routes import (
+    router as audio_router
+)
+from app.vision.routes import (
+    router as vision_router
+)
+from app.fusion.routes import (
+    router as fusion_router
+)
 
 app = FastAPI(
     title="DeepHire",
@@ -25,6 +37,18 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(resume_router)
 app.include_router(interview_router)
+app.include_router(
+    evaluation_router
+)
+app.include_router(
+    audio_router
+)
+app.include_router(
+    vision_router
+)
+app.include_router(
+    fusion_router
+)
 
 
 @app.get("/")
