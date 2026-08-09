@@ -16,6 +16,9 @@ from app.vision.routes import (
 from app.fusion.routes import (
     router as fusion_router
 )
+from app.nlp.routes import (
+    router as nlp_router
+)
 
 app = FastAPI(
     title="DeepHire",
@@ -48,6 +51,9 @@ app.include_router(
 )
 app.include_router(
     fusion_router
+)
+app.include_router(
+    nlp_router
 )
 
 

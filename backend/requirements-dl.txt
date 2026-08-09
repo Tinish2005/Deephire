@@ -1,0 +1,12 @@
+torch
+torchvision
+torchaudio
+transformers
+sentence-transformers
+accelerate
+datasets
+tokenizers
+faster-whisper
+scikit-learn
+numpy
+pandas
