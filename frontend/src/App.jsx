@@ -1,10 +1,10 @@
-import VisionTester
-    from "./components/VisionTester";
+import FusionTester
+    from "./components/FusionTester";
 
 function App() {
 
     return (
-        <VisionTester />
+        <FusionTester />
     );
 }
 
