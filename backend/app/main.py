@@ -24,10 +24,9 @@ from app.fusion.routes import (
     router as fusion_router
 )
 
-# Corporate laptop temporary disable
-# from app.nlp.routes import (
-#     router as nlp_router
-# )
+from app.nlp.routes import (
+    router as nlp_router
+)
 
 from app.api.session_routes import (
     router as session_router
@@ -92,10 +91,9 @@ app.include_router(
     report_router
 )
 
-# Corporate laptop temporary disable
-# app.include_router(
-#     nlp_router
-# )
+app.include_router(
+    nlp_router
+)
 
 
 @app.get("/")
