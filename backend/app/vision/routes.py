@@ -1,8 +1,16 @@
 from fastapi import (
     APIRouter,
     UploadFile,
-    File
+    File,
+    Form,
+    Depends
 )
+
+from sqlalchemy.orm import Session
+
+from app.database.db import get_db
+from app.models.candidate_session import CandidateSession
+
 from app.vision.face_detector import (
     detect_faces
 )
@@ -31,21 +39,36 @@ def vision_health():
 
 @router.post("/upload")
 async def upload_frame(
-    image: UploadFile = File(...)
+    image: UploadFile = File(...),
+    session_id: int = Form(...),
+    db: Session = Depends(get_db)
 ):
 
     path = await save_frame(
         image
     )
 
+    session = (
+        db.query(CandidateSession)
+        .filter(CandidateSession.id == session_id)
+        .first()
+    )
+
+    if session:
+        session.vision_image_path = path
+        db.commit()
+
     return {
         "status": "success",
-        "path": path
+        "path": path,
+        "session_id": session_id
     }
 
 @router.post("/detect-face")
 async def detect_face(
-    image: UploadFile = File(...)
+    image: UploadFile = File(...),
+    session_id: int = Form(...),
+    db: Session = Depends(get_db)
 ):
 
     path = await save_frame(
@@ -56,10 +79,23 @@ async def detect_face(
         path
     )
 
+    session = (
+        db.query(CandidateSession)
+        .filter(CandidateSession.id == session_id)
+        .first()
+    )
+
+    if session:
+        session.vision_image_path = path
+        db.commit()
+
     return result
+
 @router.post("/attention")
 async def attention(
-    image: UploadFile = File(...)
+    image: UploadFile = File(...),
+    session_id: int = Form(...),
+    db: Session = Depends(get_db)
 ):
 
     path = await save_frame(
@@ -69,5 +105,15 @@ async def attention(
     result = analyze_attention(
         path
     )
+
+    session = (
+        db.query(CandidateSession)
+        .filter(CandidateSession.id == session_id)
+        .first()
+    )
+
+    if session:
+        session.vision_image_path = path
+        db.commit()
 
     return result

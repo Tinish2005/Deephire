@@ -22,3 +22,10 @@ class CandidateSessionResponse(BaseModel):
     class Config:
 
         from_attributes = True
+
+        
+class SessionAnswerUpdate(BaseModel):
+
+    question_text: str
+    expected_answer: str
+    candidate_answer: str

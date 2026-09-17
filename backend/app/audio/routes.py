@@ -1,8 +1,15 @@
 from fastapi import (
     APIRouter,
     UploadFile,
-    File
+    File,
+    Form,
+    Depends
 )
+
+from sqlalchemy.orm import Session
+
+from app.database.db import get_db
+from app.models.candidate_session import CandidateSession
 
 from app.audio.upload_service import (
     save_audio
@@ -29,22 +36,37 @@ def audio_health():
 
 @router.post("/upload")
 async def upload_audio(
-    audio: UploadFile = File(...)
+    audio: UploadFile = File(...),
+    session_id: int = Form(...),
+    db: Session = Depends(get_db)
 ):
 
     path = await save_audio(
         audio
     )
 
+    session = (
+        db.query(CandidateSession)
+        .filter(CandidateSession.id == session_id)
+        .first()
+    )
+
+    if session:
+        session.audio_path = path
+        db.commit()
+
     return {
         "status": "success",
-        "path": path
+        "path": path,
+        "session_id": session_id
     }
 
 
 @router.post("/analytics")
 async def audio_analytics(
-    audio: UploadFile = File(...)
+    audio: UploadFile = File(...),
+    session_id: int = Form(...),
+    db: Session = Depends(get_db)
 ):
 
     path = await save_audio(
@@ -54,5 +76,15 @@ async def audio_analytics(
     result = analyze_audio(
         path
     )
+
+    session = (
+        db.query(CandidateSession)
+        .filter(CandidateSession.id == session_id)
+        .first()
+    )
+
+    if session:
+        session.audio_path = path
+        db.commit()
 
     return result

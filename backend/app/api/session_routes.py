@@ -11,7 +11,8 @@ from app.models.candidate_session import (
 
 from app.schemas.candidate_session import (
     CandidateSessionCreate,
-    CandidateSessionResponse
+    CandidateSessionResponse,
+    SessionAnswerUpdate
 )
 
 router = APIRouter(
@@ -58,6 +59,32 @@ def get_session(
     )
 
     return session
+
+
+@router.post("/{session_id}/answer")
+def save_answer(
+    session_id: int,
+    data: SessionAnswerUpdate,
+    db: Session = Depends(get_db)
+):
+
+    session = (
+        db.query(CandidateSession)
+        .filter(
+            CandidateSession.id == session_id
+        )
+        .first()
+    )
+
+    if session:
+        session.question_text = data.question_text
+        session.expected_answer = data.expected_answer
+        session.candidate_answer = data.candidate_answer
+        db.commit()
+        db.refresh(session)
+
+    return session
+
 
 @router.get("/history/all")
 def get_all_sessions(

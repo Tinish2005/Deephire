@@ -27,6 +27,36 @@ class CandidateSession(Base):
         nullable=True
     )
 
+    resume_path: Mapped[str] = mapped_column(
+        String(500),
+        nullable=True
+    )
+
+    audio_path: Mapped[str] = mapped_column(
+        String(500),
+        nullable=True
+    )
+
+    vision_image_path: Mapped[str] = mapped_column(
+        String(500),
+        nullable=True
+    )
+
+    question_text: Mapped[str] = mapped_column(
+        String(1000),
+        nullable=True
+    )
+
+    expected_answer: Mapped[str] = mapped_column(
+        String(2000),
+        nullable=True
+    )
+
+    candidate_answer: Mapped[str] = mapped_column(
+        String(2000),
+        nullable=True
+    )
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow
