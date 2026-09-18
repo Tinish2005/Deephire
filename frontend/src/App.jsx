@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import FusionTester from "./components/FusionTester";
 import Dashboard from "./pages/Dashboard";
+import InterviewFlow from "./pages/InterviewFlow";
 
 function App() {
     return (
@@ -13,13 +14,15 @@ function App() {
                     gap: "20px",
                 }}
             >
-                <Link to="/">Assessment</Link>
+                <Link to="/">Assessment (Old Test)</Link>
                 <Link to="/dashboard">Dashboard</Link>
+                <Link to="/interview">Start Interview</Link>
             </nav>
 
             <Routes>
                 <Route path="/" element={<FusionTester />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/interview" element={<InterviewFlow />} />
             </Routes>
         </BrowserRouter>
     );

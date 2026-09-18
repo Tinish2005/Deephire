@@ -21,10 +21,15 @@ function VoiceDashboard({
             </h2>
 
             <p>
-                File Size:
+                Transcript:
                 {" "}
-                {analytics.file_size_bytes}
-                {" "}bytes
+                "{analytics.transcript}"
+            </p>
+
+            <p>
+                Word Count:
+                {" "}
+                {analytics.word_count}
             </p>
 
             <p>
@@ -35,10 +40,37 @@ function VoiceDashboard({
             </p>
 
             <p>
-                Estimated WPM:
+                Speaking Rate:
                 {" "}
-                {analytics.estimated_wpm}
+                {analytics.speaking_rate_wpm}
+                {" "}WPM
             </p>
+
+            <p>
+                Filler Words Detected:
+                {" "}
+                {analytics.filler_word_count}
+            </p>
+
+            <hr />
+
+            <p>
+                Clarity Score:
+                {" "}
+                {analytics.clarity_score}
+            </p>
+
+            <p>
+                Pace Score:
+                {" "}
+                {analytics.pace_score}
+            </p>
+
+            <h3>
+                Voice Score:
+                {" "}
+                {analytics.voice_score}
+            </h3>
         </div>
     );
 }

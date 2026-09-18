@@ -97,7 +97,7 @@ def run_assessment(
     else:
         vision_score = 0.0
 
-    overall_score = (
+    overall_score = round(
         resume_score +
         interview_score +
         voice_score +

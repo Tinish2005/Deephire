@@ -4,7 +4,7 @@ const API_URL =
     "http://127.0.0.1:8000";
 
 export const analyzeVision =
-    async (imageFile) => {
+    async (imageFile, sessionId) => {
 
         const formData =
             new FormData();
@@ -12,6 +12,11 @@ export const analyzeVision =
         formData.append(
             "image",
             imageFile
+        );
+
+        formData.append(
+            "session_id",
+            sessionId
         );
 
         const response =
