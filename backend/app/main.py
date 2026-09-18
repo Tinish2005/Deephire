@@ -11,6 +11,7 @@ from app.evaluation.routes import (
 
 from app.audio.routes import (
     router as audio_router
+    
 )
 from app.api.assessment_routes import (
     router as assessment_router
@@ -37,7 +38,9 @@ from app.database.sqlite_session import engine
 from app.api.report_routes import (
     router as report_router
 )
-
+from app.api.dashboard_routes import (
+    router as dashboard_router
+)
 app = FastAPI(
     title="DeepHire",
     version="1.0.0"
@@ -94,7 +97,9 @@ app.include_router(
 app.include_router(
     nlp_router
 )
-
+app.include_router(
+    dashboard_router
+)
 
 @app.get("/")
 def root():
