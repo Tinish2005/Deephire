@@ -60,7 +60,7 @@ def run_assessment(
             "error": "Session not found."
         }
 
-    resume_score = RESUME_SCORE_PLACEHOLDER
+    resume_score = session.resume_score if session.resume_score is not None else 0.0
 
     if session.question_text and session.candidate_answer:
         nlp_result = generate_enhanced_report(

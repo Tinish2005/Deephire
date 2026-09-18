@@ -2,6 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import String
 from sqlalchemy import DateTime
+from sqlalchemy import Float
 
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -16,6 +17,10 @@ class CandidateSession(Base):
     id: Mapped[int] = mapped_column(
         primary_key=True,
         index=True
+    )
+    resume_score: Mapped[float] = mapped_column(
+        Float,
+        nullable=True
     )
 
     candidate_name: Mapped[str] = mapped_column(
@@ -54,6 +59,9 @@ class CandidateSession(Base):
 
     candidate_answer: Mapped[str] = mapped_column(
         String(2000),
+        nullable=True
+    )
+    resume_score: Mapped[float] = mapped_column(
         nullable=True
     )
 

@@ -17,6 +17,8 @@ SKILLS = [
     "rag",
     "mcp",
     "gemini",
+    "langgraph",
+    "crewai",
 ]
 
 

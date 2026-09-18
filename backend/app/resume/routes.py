@@ -47,6 +47,7 @@ async def upload_resume(
 
     if session:
         session.resume_path = file_path
+        session.resume_score = profile["score"]["resume_score"]
         db.commit()
 
     return {
