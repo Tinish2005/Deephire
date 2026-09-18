@@ -8,6 +8,9 @@ from app.database.db import get_db
 from app.models.candidate_session import (
     CandidateSession
 )
+from app.models.session_answer import (
+    SessionAnswer
+)
 
 from app.schemas.candidate_session import (
     CandidateSessionCreate,
@@ -68,22 +71,37 @@ def save_answer(
     db: Session = Depends(get_db)
 ):
 
-    session = (
-        db.query(CandidateSession)
-        .filter(
-            CandidateSession.id == session_id
-        )
-        .first()
+    answer = SessionAnswer(
+        session_id=session_id,
+        question_text=data.question_text,
+        expected_answer=data.expected_answer,
+        candidate_answer=data.candidate_answer
     )
 
-    if session:
-        session.question_text = data.question_text
-        session.expected_answer = data.expected_answer
-        session.candidate_answer = data.candidate_answer
-        db.commit()
-        db.refresh(session)
+    db.add(answer)
 
-    return session
+    db.commit()
+
+    db.refresh(answer)
+
+    return answer
+
+
+@router.get("/{session_id}/answers")
+def get_answers(
+    session_id: int,
+    db: Session = Depends(get_db)
+):
+
+    answers = (
+        db.query(SessionAnswer)
+        .filter(
+            SessionAnswer.session_id == session_id
+        )
+        .all()
+    )
+
+    return answers
 
 
 @router.get("/history/all")

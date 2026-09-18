@@ -18,6 +18,10 @@ from app.models.candidate_session import (
     CandidateSession
 )
 
+from app.models.session_answer import (
+    SessionAnswer
+)
+
 from app.audio.analytics import (
     analyze_audio
 )
@@ -34,8 +38,6 @@ router = APIRouter(
     prefix="/assessment",
     tags=["Assessment Pipeline"]
 )
-
-RESUME_SCORE_PLACEHOLDER = 70.0
 
 
 @router.post(
@@ -60,19 +62,44 @@ def run_assessment(
             "error": "Session not found."
         }
 
-    resume_score = session.resume_score if session.resume_score is not None else 0.0
+    resume_score = (
+        session.resume_score
+        if session.resume_score is not None
+        else 0.0
+    )
 
-    if session.question_text and session.candidate_answer:
-        nlp_result = generate_enhanced_report(
-            session.question_text,
-            session.expected_answer or "",
-            session.candidate_answer
+    answers = (
+        db.query(SessionAnswer)
+        .filter(
+            SessionAnswer.session_id == request.session_id
         )
-        interview_score = nlp_result.get(
-            "final_score",
-            0.0
+        .all()
+    )
+
+    if answers:
+
+        total_score = 0.0
+
+        for answer in answers:
+
+            nlp_result = generate_enhanced_report(
+                answer.question_text,
+                answer.expected_answer or "",
+                answer.candidate_answer
+            )
+
+            total_score += nlp_result.get(
+                "final_score",
+                0.0
+            )
+
+        interview_score = round(
+            total_score / len(answers),
+            2
         )
+
     else:
+
         interview_score = 0.0
 
     if session.audio_path:
@@ -98,11 +125,14 @@ def run_assessment(
         vision_score = 0.0
 
     overall_score = round(
-        resume_score +
-        interview_score +
-        voice_score +
-        vision_score
-    ) / 4
+        (
+            resume_score +
+            interview_score +
+            voice_score +
+            vision_score
+        ) / 4,
+        2
+    )
 
     recommendation = (
         "Strong Candidate"

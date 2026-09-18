@@ -4,9 +4,6 @@ from app.interview.question_generator import (
 
 
 def build_interview(profile):
-    questions = generate_questions(profile)
+    result = generate_questions(profile)
 
-    return {
-        "total_questions": len(questions),
-        "questions": questions
-    }
+    return result

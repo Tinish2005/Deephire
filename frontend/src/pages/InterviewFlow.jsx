@@ -45,13 +45,15 @@ function InterviewFlow() {
     const [visionUploading, setVisionUploading] = useState(false);
     const [visionError, setVisionError] = useState("");
 
-    const [questions, setQuestions] = useState([]);
+    const [allQuestions, setAllQuestions] = useState([]);
+    const [questionIndex, setQuestionIndex] = useState(0);
     const [questionsLoading, setQuestionsLoading] = useState(false);
     const [questionsError, setQuestionsError] = useState("");
     const [candidateAnswer, setCandidateAnswer] = useState("");
     const [answerSubmitting, setAnswerSubmitting] = useState(false);
-    const [answerSubmitted, setAnswerSubmitted] = useState(false);
+    const [answeredCount, setAnsweredCount] = useState(0);
     const [answerError, setAnswerError] = useState("");
+    const [allAnswered, setAllAnswered] = useState(false);
 
     const [finalResult, setFinalResult] = useState(null);
     const [finalLoading, setFinalLoading] = useState(false);
@@ -216,7 +218,11 @@ function InterviewFlow() {
             if (data.error) {
                 setQuestionsError(data.error);
             } else {
-                setQuestions(data.questions);
+                const combined = [
+                    ...data.technical,
+                    ...data.behavioral,
+                ];
+                setAllQuestions(combined);
             }
         } catch (err) {
             console.error(err);
@@ -236,8 +242,21 @@ function InterviewFlow() {
         setAnswerError("");
 
         try {
-            await submitAnswer(session.id, questions[0], candidateAnswer);
-            setAnswerSubmitted(true);
+            await submitAnswer(
+                session.id,
+                allQuestions[questionIndex],
+                candidateAnswer
+            );
+
+            const nextIndex = questionIndex + 1;
+            setAnsweredCount(nextIndex);
+            setCandidateAnswer("");
+
+            if (nextIndex >= allQuestions.length) {
+                setAllAnswered(true);
+            } else {
+                setQuestionIndex(nextIndex);
+            }
         } catch (err) {
             console.error(err);
             setAnswerError("Failed to submit answer.");
@@ -264,7 +283,7 @@ function InterviewFlow() {
     const goNext = () => {
         const next = Math.min(currentStep + 1, STEPS.length - 1);
 
-        if (next === 3 && questions.length === 0 && !questionsLoading) {
+        if (next === 3 && allQuestions.length === 0 && !questionsLoading) {
             loadQuestions();
         }
 
@@ -427,7 +446,7 @@ function InterviewFlow() {
         if (currentStep === 3) {
             return (
                 <div>
-                    <h3>Interview Question</h3>
+                    <h3>Interview Questions</h3>
 
                     {questionsLoading && <p>Loading questions...</p>}
 
@@ -435,10 +454,25 @@ function InterviewFlow() {
                         <p style={{ color: "red" }}>{questionsError}</p>
                     )}
 
-                    {questions.length > 0 && (
+                    {allAnswered && (
+                        <p style={{ color: "green" }}>
+                            All {allQuestions.length} questions answered!
+                            Click "Next" to see your result.
+                        </p>
+                    )}
+
+                    {!allAnswered && allQuestions.length > 0 && (
                         <>
                             <p>
-                                <strong>Q:</strong> {questions[0]}
+                                Question {questionIndex + 1} of{" "}
+                                {allQuestions.length}
+                                {" "}
+                                (answered: {answeredCount})
+                            </p>
+
+                            <p>
+                                <strong>Q:</strong>{" "}
+                                {allQuestions[questionIndex]}
                             </p>
 
                             <textarea
@@ -448,7 +482,6 @@ function InterviewFlow() {
                                 onChange={(e) =>
                                     setCandidateAnswer(e.target.value)
                                 }
-                                disabled={answerSubmitted}
                             />
 
                             <br />
@@ -456,13 +489,13 @@ function InterviewFlow() {
 
                             <button
                                 onClick={handleSubmitAnswer}
-                                disabled={answerSubmitting || answerSubmitted}
+                                disabled={answerSubmitting}
                             >
-                                {answerSubmitted
-                                    ? "Answer Submitted"
-                                    : answerSubmitting
-                                        ? "Submitting..."
-                                        : "Submit Answer"}
+                                {answerSubmitting
+                                    ? "Submitting..."
+                                    : questionIndex === allQuestions.length - 1
+                                        ? "Submit Final Answer"
+                                        : "Submit & Next Question"}
                             </button>
 
                             {answerError && (

@@ -9,7 +9,7 @@ from app.interview.gemini_generator import (
 
 
 def generate_questions(profile):
-    questions = []
+    technical_questions = []
 
     skills = profile.get("skills", [])
 
@@ -21,7 +21,7 @@ def generate_questions(profile):
 
         if skill_lower in TECHNICAL_QUESTIONS:
 
-            questions.extend(
+            technical_questions.extend(
                 TECHNICAL_QUESTIONS[skill_lower]
             )
 
@@ -33,7 +33,7 @@ def generate_questions(profile):
 
         try:
 
-            dynamic_questions = (
+            dynamic_text = (
                 generate_dynamic_questions(
                     {
                         "skills": unknown_skills,
@@ -49,18 +49,38 @@ def generate_questions(profile):
                 )
             )
 
-            questions.append(dynamic_questions)
+            for line in dynamic_text.split("\n"):
+
+                clean_line = line.strip()
+
+                if len(clean_line) < 10:
+                    continue
+
+                if clean_line[0].isdigit():
+
+                    clean_line = clean_line.split(
+                        ".",
+                        1
+                    )[-1].strip()
+
+                technical_questions.append(
+                    clean_line
+                )
 
         except Exception:
 
             for skill in unknown_skills:
 
-                questions.append(
+                technical_questions.append(
                     f"Explain your experience with {skill}"
                 )
 
-    questions.extend(
-        BEHAVIORAL_QUESTIONS
-    )
+    technical_questions = technical_questions[:8]
 
-    return questions
+    behavioral_questions = BEHAVIORAL_QUESTIONS[:2]
+
+    return {
+        "technical": technical_questions,
+        "behavioral": behavioral_questions,
+        "total_questions": len(technical_questions) + len(behavioral_questions)
+    }
