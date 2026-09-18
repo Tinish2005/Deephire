@@ -14,3 +14,11 @@ checkpoints/
 *.pth
 
 datasets/raw/
+
+app/uploads/
+app/audio/uploads/
+app/vision/uploads/
+*.db
+venv/
+__pycache__/
+*.pyc.env
