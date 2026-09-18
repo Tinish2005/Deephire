@@ -15,10 +15,7 @@ checkpoints/
 
 datasets/raw/
 
-app/uploads/
-app/audio/uploads/
-app/vision/uploads/
+backend/app/uploads/
+backend/app/audio/uploads/
+backend/app/vision/uploads/
 *.db
-venv/
-__pycache__/
-*.pyc.env
