@@ -16,7 +16,7 @@ model = genai.GenerativeModel(
 def generate_dynamic_questions(profile):
 
     prompt = f"""
-Generate 5 technical interview questions AND a strong model answer for each,
+Generate 8 technical interview questions AND a strong model answer for each,
 for a candidate with the following background.
 
 These skills are from a resume in the context of AI/ML and software engineering. Interpret
@@ -36,6 +36,9 @@ Return ONLY a valid JSON array, with no other text, no markdown code fences, in 
 this format:
 
 [
+  {{"question": "...", "answer": "..."}},
+  {{"question": "...", "answer": "..."}},
+  {{"question": "...", "answer": "..."}},
   {{"question": "...", "answer": "..."}},
   {{"question": "...", "answer": "..."}},
   {{"question": "...", "answer": "..."}},

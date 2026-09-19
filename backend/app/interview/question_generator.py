@@ -1,5 +1,4 @@
 from app.interview.question_bank import (
-    TECHNICAL_QUESTIONS,
     BEHAVIORAL_QUESTIONS,
 )
 
@@ -9,33 +8,18 @@ from app.interview.gemini_generator import (
 
 
 def generate_questions(profile):
-    technical_questions = []
 
     skills = profile.get("skills", [])
 
-    unknown_skills = []
+    technical_questions = []
 
-    for skill in skills:
-
-        skill_lower = skill.lower()
-
-        if skill_lower in TECHNICAL_QUESTIONS:
-
-            technical_questions.extend(
-                TECHNICAL_QUESTIONS[skill_lower]
-            )
-
-        else:
-
-            unknown_skills.append(skill)
-
-    if unknown_skills:
+    if skills:
 
         try:
 
             dynamic_pairs = generate_dynamic_questions(
                 {
-                    "skills": unknown_skills,
+                    "skills": skills,
                     "projects": profile.get(
                         "projects",
                         [],
@@ -58,7 +42,7 @@ def generate_questions(profile):
 
         except Exception:
 
-            for skill in unknown_skills:
+            for skill in skills[:8]:
 
                 technical_questions.append(
                     {
