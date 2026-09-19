@@ -9,3 +9,11 @@ export const getDashboardStats = async () => {
 
     return response.data;
 };
+
+export const getHistory = async () => {
+    const response = await axios.get(
+        `${API_URL}/dashboard/history`
+    );
+
+    return response.data;
+};

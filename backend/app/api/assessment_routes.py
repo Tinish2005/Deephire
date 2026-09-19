@@ -221,19 +221,42 @@ def run_assessment(
         },
     }
 
-    report = FinalReport(
-        session_id=request.session_id,
-        overall_score=overall_score,
-        recommendation=recommendation,
-        strengths="Communication, Attention",
-        weaknesses="Technical Depth"
+    existing_report = (
+        db.query(FinalReport)
+        .filter(
+            FinalReport.session_id == request.session_id
+        )
+        .first()
     )
 
-    db.add(report)
+    if existing_report:
 
-    db.commit()
+        existing_report.overall_score = overall_score
+        existing_report.recommendation = recommendation
+        existing_report.strengths = "Communication, Attention"
+        existing_report.weaknesses = "Technical Depth"
 
-    db.refresh(report)
+        db.commit()
+
+        db.refresh(existing_report)
+
+        report = existing_report
+
+    else:
+
+        report = FinalReport(
+            session_id=request.session_id,
+            overall_score=overall_score,
+            recommendation=recommendation,
+            strengths="Communication, Attention",
+            weaknesses="Technical Depth"
+        )
+
+        db.add(report)
+
+        db.commit()
+
+        db.refresh(report)
 
     return {
         "session_id": request.session_id,

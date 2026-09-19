@@ -83,3 +83,62 @@ def get_dashboard_stats(
         "latest_score": latest_score,
         "latest_recommendation": latest_recommendation
     }
+
+
+@router.get("/history")
+def get_history(
+    db: Session = Depends(get_db)
+):
+
+    reports = (
+        db.query(FinalReport)
+        .order_by(FinalReport.id.asc())
+        .all()
+    )
+
+    history = []
+
+    strong_count = 0
+    average_count = 0
+
+    for report in reports:
+
+        session = (
+            db.query(CandidateSession)
+            .filter(
+                CandidateSession.id == report.session_id
+            )
+            .first()
+        )
+
+        candidate_name = (
+            session.candidate_name
+            if session
+            else "Unknown"
+        )
+
+        created_at = (
+            session.created_at
+            if session
+            else None
+        )
+
+        if report.recommendation == "Strong Candidate":
+            strong_count += 1
+        else:
+            average_count += 1
+
+        history.append({
+            "report_id": report.id,
+            "session_id": report.session_id,
+            "candidate_name": candidate_name,
+            "created_at": created_at,
+            "overall_score": report.overall_score,
+            "recommendation": report.recommendation,
+        })
+
+    return {
+        "history": history,
+        "strong_candidate_count": strong_count,
+        "average_candidate_count": average_count,
+    }
