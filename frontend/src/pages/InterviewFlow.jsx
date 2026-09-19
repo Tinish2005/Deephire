@@ -244,7 +244,8 @@ function InterviewFlow() {
         try {
             await submitAnswer(
                 session.id,
-                allQuestions[questionIndex],
+                allQuestions[questionIndex].question,
+                allQuestions[questionIndex].answer,
                 candidateAnswer
             );
 
@@ -472,7 +473,7 @@ function InterviewFlow() {
 
                             <p>
                                 <strong>Q:</strong>{" "}
-                                {allQuestions[questionIndex]}
+                                {allQuestions[questionIndex].question}
                             </p>
 
                             <textarea

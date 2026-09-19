@@ -33,38 +33,27 @@ def generate_questions(profile):
 
         try:
 
-            dynamic_text = (
-                generate_dynamic_questions(
-                    {
-                        "skills": unknown_skills,
-                        "projects": profile.get(
-                            "projects",
-                            [],
-                        ),
-                        "experience": profile.get(
-                            "experience",
-                            [],
-                        ),
-                    }
-                )
+            dynamic_pairs = generate_dynamic_questions(
+                {
+                    "skills": unknown_skills,
+                    "projects": profile.get(
+                        "projects",
+                        [],
+                    ),
+                    "experience": profile.get(
+                        "experience",
+                        [],
+                    ),
+                }
             )
 
-            for line in dynamic_text.split("\n"):
-
-                clean_line = line.strip()
-
-                if len(clean_line) < 10:
-                    continue
-
-                if clean_line[0].isdigit():
-
-                    clean_line = clean_line.split(
-                        ".",
-                        1
-                    )[-1].strip()
+            for pair in dynamic_pairs:
 
                 technical_questions.append(
-                    clean_line
+                    {
+                        "question": pair.get("question", ""),
+                        "answer": pair.get("answer", "")
+                    }
                 )
 
         except Exception:
@@ -72,12 +61,18 @@ def generate_questions(profile):
             for skill in unknown_skills:
 
                 technical_questions.append(
-                    f"Explain your experience with {skill}"
+                    {
+                        "question": f"Explain your experience with {skill}",
+                        "answer": ""
+                    }
                 )
 
     technical_questions = technical_questions[:8]
 
-    behavioral_questions = BEHAVIORAL_QUESTIONS[:2]
+    behavioral_questions = [
+        {"question": q, "answer": ""}
+        for q in BEHAVIORAL_QUESTIONS[:2]
+    ]
 
     return {
         "technical": technical_questions,

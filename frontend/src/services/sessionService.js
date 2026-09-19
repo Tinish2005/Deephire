@@ -22,12 +22,12 @@ export const getInterviewQuestions = async (sessionId) => {
     return response.data;
 };
 
-export const submitAnswer = async (sessionId, questionText, candidateAnswer) => {
+export const submitAnswer = async (sessionId, questionText, expectedAnswer, candidateAnswer) => {
     const response = await axios.post(
         `${API_URL}/session/${sessionId}/answer`,
         {
             question_text: questionText,
-            expected_answer: "",
+            expected_answer: expectedAnswer,
             candidate_answer: candidateAnswer,
         }
     );
