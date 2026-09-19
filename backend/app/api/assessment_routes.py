@@ -76,9 +76,13 @@ def run_assessment(
         .all()
     )
 
-    if answers:
+    technical_depth_total = 0.0
+    communication_quality_total = 0.0
+    completeness_total = 0.0
+    relevance_total = 0.0
+    interview_total = 0.0
 
-        total_score = 0.0
+    if answers:
 
         for answer in answers:
 
@@ -88,19 +92,64 @@ def run_assessment(
                 answer.candidate_answer
             )
 
-            total_score += nlp_result.get(
+            interview_total += nlp_result.get(
                 "final_score",
                 0.0
             )
 
+            insights = nlp_result.get(
+                "nlp_insights",
+                {}
+            )
+
+            technical_depth_total += insights.get(
+                "technical_depth",
+                0.0
+            )
+            communication_quality_total += insights.get(
+                "communication_quality",
+                0.0
+            )
+            completeness_total += insights.get(
+                "completeness",
+                0.0
+            )
+            relevance_total += insights.get(
+                "relevance",
+                0.0
+            )
+
+        answer_count = len(answers)
+
         interview_score = round(
-            total_score / len(answers),
+            interview_total / answer_count,
+            2
+        )
+
+        technical_depth_avg = round(
+            technical_depth_total / answer_count,
+            2
+        )
+        communication_quality_avg = round(
+            communication_quality_total / answer_count,
+            2
+        )
+        completeness_avg = round(
+            completeness_total / answer_count,
+            2
+        )
+        relevance_avg = round(
+            relevance_total / answer_count,
             2
         )
 
     else:
 
         interview_score = 0.0
+        technical_depth_avg = 0.0
+        communication_quality_avg = 0.0
+        completeness_avg = 0.0
+        relevance_avg = 0.0
 
     if session.audio_path:
         audio_result = analyze_audio(
@@ -110,8 +159,18 @@ def run_assessment(
             "voice_score",
             0.0
         )
+        clarity_score = audio_result.get(
+            "clarity_score",
+            0.0
+        )
+        pace_score = audio_result.get(
+            "pace_score",
+            0.0
+        )
     else:
         voice_score = 0.0
+        clarity_score = 0.0
+        pace_score = 0.0
 
     if session.vision_image_path:
         vision_result = analyze_attention(
@@ -140,6 +199,28 @@ def run_assessment(
         else "Average Candidate"
     )
 
+    explanation = {
+        "resume": {
+            "score": resume_score,
+            "skill_score": session.resume_score,
+        },
+        "interview": {
+            "score": interview_score,
+            "technical_depth": technical_depth_avg,
+            "communication_quality": communication_quality_avg,
+            "completeness": completeness_avg,
+            "relevance": relevance_avg,
+        },
+        "voice": {
+            "score": voice_score,
+            "clarity_score": clarity_score,
+            "pace_score": pace_score,
+        },
+        "vision": {
+            "score": vision_score,
+        },
+    }
+
     report = FinalReport(
         session_id=request.session_id,
         overall_score=overall_score,
@@ -154,12 +235,13 @@ def run_assessment(
 
     db.refresh(report)
 
-    return AssessmentResponse(
-        session_id=request.session_id,
-        resume_score=resume_score,
-        interview_score=interview_score,
-        voice_score=voice_score,
-        vision_score=vision_score,
-        overall_score=overall_score,
-        recommendation=recommendation
-    )
+    return {
+        "session_id": request.session_id,
+        "resume_score": resume_score,
+        "interview_score": interview_score,
+        "voice_score": voice_score,
+        "vision_score": vision_score,
+        "overall_score": overall_score,
+        "recommendation": recommendation,
+        "explanation": explanation,
+    }

@@ -22,6 +22,8 @@ class AssessmentResponse(BaseModel):
 
     recommendation: str
 
+    explanation: dict
+
 
 class ReportResponse(BaseModel):
 
