@@ -24,6 +24,8 @@ class AssessmentResponse(BaseModel):
 
     explanation: dict
 
+    report_id: int
+
 
 class ReportResponse(BaseModel):
 

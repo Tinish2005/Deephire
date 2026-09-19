@@ -257,14 +257,14 @@ def run_assessment(
         db.commit()
 
         db.refresh(report)
-
-    return {
-        "session_id": request.session_id,
-        "resume_score": resume_score,
-        "interview_score": interview_score,
-        "voice_score": voice_score,
-        "vision_score": vision_score,
-        "overall_score": overall_score,
-        "recommendation": recommendation,
-        "explanation": explanation,
-    }
+    return AssessmentResponse(
+        session_id=request.session_id,
+        resume_score=resume_score,
+        interview_score=interview_score,
+        voice_score=voice_score,
+        vision_score=vision_score,
+        overall_score=overall_score,
+        recommendation=recommendation,
+        explanation=explanation,
+        report_id=report.id
+    )

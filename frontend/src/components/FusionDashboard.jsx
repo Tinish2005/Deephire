@@ -8,6 +8,20 @@ function FusionDashboard({
 
     const explanation = result.explanation || {};
 
+    const openPdf = () => {
+        window.open(
+            `http://127.0.0.1:8000/reports/${result.report_id}/export/pdf`,
+            "_blank"
+        );
+    };
+
+    const openJson = () => {
+        window.open(
+            `http://127.0.0.1:8000/reports/${result.report_id}/export/json`,
+            "_blank"
+        );
+    };
+
     return (
         <div
             style={{
@@ -131,6 +145,22 @@ function FusionDashboard({
                             {" "}/ 100
                         </p>
                     </div>
+                </>
+            )}
+
+            {result.report_id && (
+                <>
+                    <hr />
+
+                    <button onClick={openPdf}>
+                        Download PDF Report
+                    </button>
+
+                    {" "}
+
+                    <button onClick={openJson}>
+                        View JSON Export
+                    </button>
                 </>
             )}
         </div>

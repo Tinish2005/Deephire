@@ -18,4 +18,4 @@ datasets/raw/
 backend/app/uploads/
 backend/app/audio/uploads/
 backend/app/vision/uploads/
-*.db
+*.dbbackend/app/exports/
