@@ -286,14 +286,4 @@ Then open `http://localhost:5173/interview` to run a full assessment.
 
 ---
 
-## Project Status
 
-The core pipeline — resume, interview, voice, vision, scoring, and explainability — is complete and verified end-to-end across multiple professional domains. A dashboard, history/analytics view, and PDF/JSON export are also implemented.
-
-**Not yet done:** production deployment (the app currently runs locally with SQLite; a hosted version would need PostgreSQL, environment-based configuration, and hosting for the PyTorch/Whisper/OpenCV dependencies).
-
----
-
-## Acknowledgments
-
-Built as a portfolio project to demonstrate applied integration of multiple AI services and models into a coherent, working product — not as a research contribution in model training.
