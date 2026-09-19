@@ -1,5 +1,11 @@
 import re
 
+from app.resume.gemini_skill_extractor import (
+    extract_skills_with_gemini,
+    extract_projects_with_gemini,
+    extract_experience_with_gemini,
+)
+
 SKILLS = [
     # AI / ML / GenAI
     "python",
@@ -73,7 +79,7 @@ SKILLS = [
 ]
 
 
-def extract_skills(text: str):
+def extract_skills_keyword_fallback(text: str):
     text_lower = text.lower()
 
     found_skills = []
@@ -88,15 +94,12 @@ def extract_skills(text: str):
     return sorted(list(set(found_skills)))
 
 
-def extract_projects(text: str):
+def extract_projects_keyword_fallback(text: str):
     projects = []
 
     lines = text.split("\n")
 
     project_keywords = [
-        "github agent",
-        "review platform",
-        "deephire",
         "project",
     ]
 
@@ -114,7 +117,7 @@ def extract_projects(text: str):
     return projects[:5]
 
 
-def extract_experience(text: str):
+def extract_experience_keyword_fallback(text: str):
     experiences = []
 
     lines = text.split("\n")
@@ -124,6 +127,14 @@ def extract_experience(text: str):
         "engineer",
         "developer",
         "analyst",
+        "manager",
+        "coordinator",
+        "generalist",
+        "specialist",
+        "consultant",
+        "associate",
+        "officer",
+        "executive",
     ]
 
     for line in lines:
@@ -138,3 +149,39 @@ def extract_experience(text: str):
                 break
 
     return experiences[:5]
+
+
+def extract_skills(text: str):
+
+    try:
+
+        skills = extract_skills_with_gemini(text)
+
+        if skills:
+            return skills
+
+        return extract_skills_keyword_fallback(text)
+
+    except Exception:
+
+        return extract_skills_keyword_fallback(text)
+
+
+def extract_projects(text: str):
+
+    projects = extract_projects_with_gemini(text)
+
+    if projects:
+        return projects
+
+    return extract_projects_keyword_fallback(text)
+
+
+def extract_experience(text: str):
+
+    experience = extract_experience_with_gemini(text)
+
+    if experience:
+        return experience
+
+    return extract_experience_keyword_fallback(text)

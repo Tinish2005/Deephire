@@ -4,7 +4,7 @@ def calculate_resume_score(
     experience: list
 ):
     skill_score = min(
-        len(skills) / 15,
+        len(skills) / 40,
         1.0
     ) * 100
 

@@ -16,12 +16,20 @@ model = genai.GenerativeModel(
 def generate_dynamic_questions(profile):
 
     prompt = f"""
-Generate 8 technical interview questions AND a strong model answer for each,
-for a candidate with the following background.
+Generate 8 interview questions AND a strong model answer for each, tailored specifically
+to this candidate's actual field and skill set below.
 
-These skills are from a resume in the context of AI/ML and software engineering. Interpret
-acronyms accordingly — for example, "MCP" means Model Context Protocol (an AI agent tool
-standard), NOT Microsoft Certified Professional. "RAG" means Retrieval-Augmented Generation.
+Do NOT assume this is a software engineering or AI/ML candidate unless their skills,
+projects, and experience genuinely indicate that. Determine the candidate's actual
+professional domain (e.g. business analysis, marketing, finance, design, data science,
+software engineering, operations, etc.) from the information below, and ask questions
+a real interviewer in THAT field would ask — testing the skills, tools, and experience
+they actually have, not skills from a different field.
+
+If any of the skills happen to include acronyms common in AI/ML tooling — "MCP" means
+Model Context Protocol (an AI agent tool standard), NOT Microsoft Certified Professional,
+and "RAG" means Retrieval-Augmented Generation — but only apply this interpretation if
+the candidate's overall profile is genuinely AI/ML or software-engineering related.
 
 Skills:
 {profile.get("skills", [])}
