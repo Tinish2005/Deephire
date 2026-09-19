@@ -3,19 +3,18 @@ def calculate_resume_score(
     projects: list,
     experience: list
 ):
-
     skill_score = min(
-        len(skills) / 8,
+        len(skills) / 15,
         1.0
     ) * 100
 
     project_score = min(
-        len(projects) / 3,
+        len(projects) / 5,
         1.0
     ) * 100
 
     experience_score = min(
-        len(experience) / 2,
+        len(experience) / 4,
         1.0
     ) * 100
 
