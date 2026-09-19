@@ -1,24 +1,75 @@
 import re
 
 SKILLS = [
+    # AI / ML / GenAI
     "python",
-    "java",
-    "c++",
-    "react",
-    "fastapi",
-    "docker",
-    "sql",
-    "postgresql",
     "pytorch",
     "tensorflow",
-    "flask",
-    "javascript",
+    "keras",
+    "scikit-learn",
+    "pandas",
+    "numpy",
     "langchain",
+    "langgraph",
+    "crewai",
     "rag",
     "mcp",
     "gemini",
-    "langgraph",
-    "crewai",
+    "openai",
+    "huggingface",
+
+    # Backend / languages
+    "java",
+    "c++",
+    "c#",
+    "javascript",
+    "typescript",
+    "go",
+    "golang",
+    "rust",
+    "kotlin",
+    "swift",
+    "php",
+    "ruby",
+
+    # Web frameworks
+    "fastapi",
+    "flask",
+    "django",
+    "express",
+    "node.js",
+    "nodejs",
+    "react",
+    "angular",
+    "vue",
+    "html",
+    "css",
+
+    # Databases
+    "sql",
+    "postgresql",
+    "mysql",
+    "mongodb",
+    "redis",
+    "cassandra",
+    "dynamodb",
+
+    # Cloud / DevOps
+    "docker",
+    "kubernetes",
+    "aws",
+    "azure",
+    "gcp",
+    "terraform",
+    "jenkins",
+    "ci/cd",
+
+    # Data / analytics
+    "spark",
+    "hadoop",
+    "tableau",
+    "power bi",
+    "excel",
 ]
 
 
@@ -28,7 +79,10 @@ def extract_skills(text: str):
     found_skills = []
 
     for skill in SKILLS:
-        if skill in text_lower:
+
+        pattern = r"(?<![a-zA-Z0-9])" + re.escape(skill) + r"(?![a-zA-Z0-9])"
+
+        if re.search(pattern, text_lower):
             found_skills.append(skill)
 
     return sorted(list(set(found_skills)))
