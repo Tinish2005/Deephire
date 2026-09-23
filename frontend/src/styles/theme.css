@@ -1,0 +1,272 @@
+:root {
+    --color-bg: #0f1115;
+    --color-surface: #1a1d24;
+    --color-surface-light: #242832;
+    --color-border: #333947;
+    --color-text: #e6e8eb;
+    --color-text-muted: #9aa1ac;
+    --color-primary: #5b8def;
+    --color-primary-hover: #7ba3f2;
+    --color-success: #4caf50;
+    --color-warning: #ffa726;
+    --color-danger: #e05a5a;
+
+    --radius: 10px;
+    --radius-sm: 6px;
+    --spacing: 20px;
+    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-main);
+}
+
+.dh-nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 14px 24px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.dh-nav a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+}
+
+.dh-nav a:hover {
+    background: var(--color-surface-light);
+    color: var(--color-text);
+}
+
+.dh-nav a.active {
+    background: var(--color-primary);
+    color: white;
+}
+
+.dh-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+.dh-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--spacing);
+    margin-top: 16px;
+}
+
+.dh-card-inner {
+    background: var(--color-surface-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-top: 10px;
+}
+
+h1, h2, h3, h4 {
+    color: var(--color-text);
+    margin-top: 0;
+}
+
+.dh-subtitle {
+    color: var(--color-text-muted);
+    font-size: 14px;
+    margin-top: -8px;
+}
+
+.dh-btn {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, opacity 0.15s;
+}
+
+.dh-btn:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+}
+
+.dh-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dh-btn-secondary {
+    background: var(--color-surface-light);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+
+.dh-btn-secondary:hover:not(:disabled) {
+    background: var(--color-border);
+}
+
+.dh-input,
+.dh-textarea {
+    width: 100%;
+    background: var(--color-surface-light);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: var(--font-main);
+}
+
+.dh-input:focus,
+.dh-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.dh-label {
+    display: block;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+}
+
+.dh-field {
+    margin-bottom: 16px;
+}
+
+.dh-error {
+    color: var(--color-danger);
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.dh-success {
+    color: var(--color-success);
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.dh-steps {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.dh-step {
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: 13px;
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+}
+
+.dh-step.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    font-weight: 600;
+}
+
+.dh-stat-grid {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.dh-stat-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    min-width: 160px;
+}
+
+.dh-stat-card h3 {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.dh-stat-card p {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.dh-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+.dh-table th {
+    text-align: left;
+    padding: 10px 8px;
+    border-bottom: 2px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 13px;
+}
+
+.dh-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 14px;
+}
+
+.dh-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dh-badge-strong {
+    background: rgba(76, 175, 80, 0.15);
+    color: var(--color-success);
+}
+
+.dh-badge-average {
+    background: rgba(255, 167, 38, 0.15);
+    color: var(--color-warning);
+}
+
+.dh-video {
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.dh-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--color-surface-light);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.dh-progress-fill {
+    height: 100%;
+    background: var(--color-primary);
+    transition: width 0.3s ease;
+}

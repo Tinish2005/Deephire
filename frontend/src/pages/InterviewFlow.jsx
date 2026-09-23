@@ -297,34 +297,35 @@ function InterviewFlow() {
 
     if (!started) {
         return (
-            <div style={{ padding: "20px", maxWidth: "400px" }}>
+            <div className="dh-page" style={{ maxWidth: "420px" }}>
                 <h2>Start Assessment</h2>
+                <p className="dh-subtitle">
+                    Enter your name to begin a full interview assessment.
+                </p>
 
-                {error && <p style={{ color: "red" }}>{error}</p>}
+                {error && <p className="dh-error">{error}</p>}
 
-                <div style={{ marginBottom: "10px" }}>
-                    <label>Candidate Name</label>
-                    <br />
+                <div className="dh-field">
+                    <label className="dh-label">Candidate Name</label>
                     <input
                         type="text"
+                        className="dh-input"
                         value={candidateName}
                         onChange={(e) => setCandidateName(e.target.value)}
-                        style={{ width: "100%", padding: "8px" }}
                     />
                 </div>
 
-                <div style={{ marginBottom: "10px" }}>
-                    <label>Email (optional)</label>
-                    <br />
+                <div className="dh-field">
+                    <label className="dh-label">Email (optional)</label>
                     <input
                         type="email"
+                        className="dh-input"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        style={{ width: "100%", padding: "8px" }}
                     />
                 </div>
 
-                <button onClick={handleStart} disabled={loading}>
+                <button className="dh-btn" onClick={handleStart} disabled={loading}>
                     {loading ? "Starting..." : "Start Assessment"}
                 </button>
             </div>
@@ -347,19 +348,16 @@ function InterviewFlow() {
                     <br />
 
                     <button
+                        className="dh-btn"
                         onClick={handleResumeUpload}
                         disabled={resumeUploading}
                     >
                         {resumeUploading ? "Uploading..." : "Upload Resume"}
                     </button>
 
-                    {resumeError && (
-                        <p style={{ color: "red" }}>{resumeError}</p>
-                    )}
+                    {resumeError && <p className="dh-error">{resumeError}</p>}
 
-                    {resumeProfile && (
-                        <ResumeCard profile={resumeProfile} />
-                    )}
+                    {resumeProfile && <ResumeCard profile={resumeProfile} />}
                 </div>
             );
         }
@@ -370,24 +368,20 @@ function InterviewFlow() {
                     <h3>Record Your Answer</h3>
 
                     {!recording ? (
-                        <button onClick={startRecording}>
+                        <button className="dh-btn" onClick={startRecording}>
                             Start Recording
                         </button>
                     ) : (
-                        <button onClick={stopRecording}>
+                        <button className="dh-btn dh-btn-secondary" onClick={stopRecording}>
                             Stop Recording
                         </button>
                     )}
 
-                    {audioUploading && <p>Analyzing audio...</p>}
+                    {audioUploading && <p className="dh-subtitle">Analyzing audio...</p>}
 
-                    {audioError && (
-                        <p style={{ color: "red" }}>{audioError}</p>
-                    )}
+                    {audioError && <p className="dh-error">{audioError}</p>}
 
-                    {audioAnalytics && (
-                        <VoiceDashboard analytics={audioAnalytics} />
-                    )}
+                    {audioAnalytics && <VoiceDashboard analytics={audioAnalytics} />}
                 </div>
             );
         }
@@ -398,17 +392,16 @@ function InterviewFlow() {
                     <h3>Capture Your Video Frame</h3>
 
                     {!cameraOn ? (
-                        <button onClick={startCamera}>
+                        <button className="dh-btn" onClick={startCamera}>
                             Start Camera
                         </button>
                     ) : (
                         <button
+                            className="dh-btn"
                             onClick={captureFrame}
                             disabled={visionUploading}
                         >
-                            {visionUploading
-                                ? "Analyzing..."
-                                : "Capture Frame"}
+                            {visionUploading ? "Analyzing..." : "Capture Frame"}
                         </button>
                     )}
 
@@ -421,74 +414,68 @@ function InterviewFlow() {
                         playsInline
                         width="480"
                         height="360"
-                        style={{
-                            border: "2px solid #ccc",
-                            borderRadius: "10px",
-                            display: cameraOn ? "block" : "none",
-                        }}
+                        className="dh-video"
+                        style={{ display: cameraOn ? "block" : "none" }}
                     />
 
-                    <canvas
-                        ref={canvasRef}
-                        style={{ display: "none" }}
-                    />
+                    <canvas ref={canvasRef} style={{ display: "none" }} />
 
-                    {visionError && (
-                        <p style={{ color: "red" }}>{visionError}</p>
-                    )}
+                    {visionError && <p className="dh-error">{visionError}</p>}
 
-                    {visionResult && (
-                        <VisionDashboard result={visionResult} />
-                    )}
+                    {visionResult && <VisionDashboard result={visionResult} />}
                 </div>
             );
         }
 
         if (currentStep === 3) {
+            const total = allQuestions.length || 1;
+            const progressPct = Math.min((answeredCount / total) * 100, 100);
+
             return (
                 <div>
                     <h3>Interview Questions</h3>
 
-                    {questionsLoading && <p>Loading questions...</p>}
+                    {questionsLoading && <p className="dh-subtitle">Loading questions...</p>}
 
-                    {questionsError && (
-                        <p style={{ color: "red" }}>{questionsError}</p>
+                    {questionsError && <p className="dh-error">{questionsError}</p>}
+
+                    {allQuestions.length > 0 && (
+                        <div className="dh-progress-bar">
+                            <div
+                                className="dh-progress-fill"
+                                style={{ width: `${progressPct}%` }}
+                            />
+                        </div>
                     )}
 
                     {allAnswered && (
-                        <p style={{ color: "green" }}>
-                            All {allQuestions.length} questions answered!
-                            Click "Next" to see your result.
+                        <p className="dh-success">
+                            All {allQuestions.length} questions answered! Click "Next" to see your result.
                         </p>
                     )}
 
                     {!allAnswered && allQuestions.length > 0 && (
                         <>
-                            <p>
-                                Question {questionIndex + 1} of{" "}
-                                {allQuestions.length}
-                                {" "}
-                                (answered: {answeredCount})
+                            <p className="dh-subtitle">
+                                Question {questionIndex + 1} of {allQuestions.length}
                             </p>
 
                             <p>
-                                <strong>Q:</strong>{" "}
-                                {allQuestions[questionIndex].question}
+                                <strong>Q:</strong> {allQuestions[questionIndex].question}
                             </p>
 
                             <textarea
                                 rows="5"
-                                style={{ width: "100%" }}
+                                className="dh-textarea"
                                 value={candidateAnswer}
-                                onChange={(e) =>
-                                    setCandidateAnswer(e.target.value)
-                                }
+                                onChange={(e) => setCandidateAnswer(e.target.value)}
                             />
 
                             <br />
                             <br />
 
                             <button
+                                className="dh-btn"
                                 onClick={handleSubmitAnswer}
                                 disabled={answerSubmitting}
                             >
@@ -499,9 +486,7 @@ function InterviewFlow() {
                                         : "Submit & Next Question"}
                             </button>
 
-                            {answerError && (
-                                <p style={{ color: "red" }}>{answerError}</p>
-                            )}
+                            {answerError && <p className="dh-error">{answerError}</p>}
                         </>
                     )}
                 </div>
@@ -514,21 +499,16 @@ function InterviewFlow() {
                     <h3>Final Assessment</h3>
 
                     <button
+                        className="dh-btn"
                         onClick={handleRunAssessment}
                         disabled={finalLoading}
                     >
-                        {finalLoading
-                            ? "Generating..."
-                            : "Generate Final Assessment"}
+                        {finalLoading ? "Generating..." : "Generate Final Assessment"}
                     </button>
 
-                    {finalError && (
-                        <p style={{ color: "red" }}>{finalError}</p>
-                    )}
+                    {finalError && <p className="dh-error">{finalError}</p>}
 
-                    {finalResult && (
-                        <FusionDashboard result={finalResult} />
-                    )}
+                    {finalResult && <FusionDashboard result={finalResult} />}
                 </div>
             );
         }
@@ -537,50 +517,34 @@ function InterviewFlow() {
     };
 
     return (
-        <div style={{ padding: "20px" }}>
+        <div className="dh-page">
             <h2>Assessment — Session #{session.id}</h2>
 
-            <div
-                style={{
-                    display: "flex",
-                    gap: "10px",
-                    marginBottom: "20px",
-                }}
-            >
+            <div className="dh-steps">
                 {STEPS.map((stepName, index) => (
                     <div
                         key={stepName}
-                        style={{
-                            padding: "8px 14px",
-                            borderRadius: "6px",
-                            border: "1px solid #ccc",
-                            fontWeight:
-                                index === currentStep ? "bold" : "normal",
-                            background:
-                                index === currentStep ? "#ddeeff" : "transparent",
-                        }}
+                        className={
+                            index === currentStep ? "dh-step active" : "dh-step"
+                        }
                     >
                         {index + 1}. {stepName}
                     </div>
                 ))}
             </div>
 
-            <div
-                style={{
-                    padding: "20px",
-                    border: "1px solid #ddd",
-                    borderRadius: "10px",
-                    minHeight: "200px",
-                }}
-            >
-                {renderStepContent()}
-            </div>
+            <div className="dh-card">{renderStepContent()}</div>
 
             <div style={{ marginTop: "20px" }}>
-                <button onClick={goBack} disabled={currentStep === 0}>
+                <button
+                    className="dh-btn dh-btn-secondary"
+                    onClick={goBack}
+                    disabled={currentStep === 0}
+                >
                     Back
                 </button>{" "}
                 <button
+                    className="dh-btn"
                     onClick={goNext}
                     disabled={currentStep === STEPS.length - 1}
                 >

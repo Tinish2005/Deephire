@@ -23,55 +23,29 @@ function FusionDashboard({
     };
 
     return (
-        <div
-            style={{
-                padding: "20px",
-                marginTop: "20px",
-                border: "1px solid #ddd",
-                borderRadius: "10px",
-                background: "#f8f8f8"
-            }}
-        >
-            <h2>
-                Candidate Assessment
-            </h2>
+        <div className="dh-card">
+            <h2>Candidate Assessment</h2>
 
-            <p>
-                Resume Score:
-                {" "}
-                {result.resume_score}
-            </p>
-
-            <p>
-                Interview Score:
-                {" "}
-                {result.interview_score}
-            </p>
-
-            <p>
-                Voice Score:
-                {" "}
-                {result.voice_score}
-            </p>
-
-            <p>
-                Vision Score:
-                {" "}
-                {result.vision_score}
-            </p>
+            <p>Resume Score: {result.resume_score}</p>
+            <p>Interview Score: {result.interview_score}</p>
+            <p>Voice Score: {result.voice_score}</p>
+            <p>Vision Score: {result.vision_score}</p>
 
             <hr />
 
-            <h3>
-                Overall Score:
-                {" "}
-                {result.overall_score}
-            </h3>
+            <h3>Overall Score: {result.overall_score}</h3>
 
             <h3>
-                Recommendation:
-                {" "}
-                {result.recommendation}
+                Recommendation:{" "}
+                <span
+                    className={
+                        result.recommendation === "Strong Candidate"
+                            ? "dh-badge dh-badge-strong"
+                            : "dh-badge dh-badge-average"
+                    }
+                >
+                    {result.recommendation}
+                </span>
             </h3>
 
             {explanation.interview && (
@@ -80,70 +54,20 @@ function FusionDashboard({
 
                     <h3>Why This Score? (Breakdown)</h3>
 
-                    <div
-                        style={{
-                            marginTop: "10px",
-                            padding: "15px",
-                            background: "#fff",
-                            border: "1px solid #eee",
-                            borderRadius: "8px",
-                        }}
-                    >
+                    <div className="dh-card-inner">
                         <h4>Interview Answer Quality</h4>
 
-                        <p>
-                            Technical Depth:
-                            {" "}
-                            {explanation.interview.technical_depth}
-                            {" "}/ 100
-                        </p>
-
-                        <p>
-                            Communication Quality:
-                            {" "}
-                            {explanation.interview.communication_quality}
-                            {" "}/ 100
-                        </p>
-
-                        <p>
-                            Completeness:
-                            {" "}
-                            {explanation.interview.completeness}
-                            {" "}/ 100
-                        </p>
-
-                        <p>
-                            Relevance to Question:
-                            {" "}
-                            {explanation.interview.relevance}
-                            {" "}/ 100
-                        </p>
+                        <p>Technical Depth: {explanation.interview.technical_depth} / 100</p>
+                        <p>Communication Quality: {explanation.interview.communication_quality} / 100</p>
+                        <p>Completeness: {explanation.interview.completeness} / 100</p>
+                        <p>Relevance to Question: {explanation.interview.relevance} / 100</p>
                     </div>
 
-                    <div
-                        style={{
-                            marginTop: "10px",
-                            padding: "15px",
-                            background: "#fff",
-                            border: "1px solid #eee",
-                            borderRadius: "8px",
-                        }}
-                    >
+                    <div className="dh-card-inner">
                         <h4>Voice Delivery</h4>
 
-                        <p>
-                            Clarity:
-                            {" "}
-                            {explanation.voice.clarity_score}
-                            {" "}/ 100
-                        </p>
-
-                        <p>
-                            Speaking Pace:
-                            {" "}
-                            {explanation.voice.pace_score}
-                            {" "}/ 100
-                        </p>
+                        <p>Clarity: {explanation.voice.clarity_score} / 100</p>
+                        <p>Speaking Pace: {explanation.voice.pace_score} / 100</p>
                     </div>
                 </>
             )}
@@ -152,13 +76,13 @@ function FusionDashboard({
                 <>
                     <hr />
 
-                    <button onClick={openPdf}>
+                    <button className="dh-btn" onClick={openPdf}>
                         Download PDF Report
                     </button>
 
                     {" "}
 
-                    <button onClick={openJson}>
+                    <button className="dh-btn dh-btn-secondary" onClick={openJson}>
                         View JSON Export
                     </button>
                 </>

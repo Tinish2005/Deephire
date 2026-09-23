@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import FusionTester from "./components/FusionTester";
 import Dashboard from "./pages/Dashboard";
 import InterviewFlow from "./pages/InterviewFlow";
@@ -7,18 +7,32 @@ import History from "./pages/History";
 function App() {
     return (
         <BrowserRouter>
-            <nav
-                style={{
-                    padding: "15px",
-                    borderBottom: "1px solid #ddd",
-                    display: "flex",
-                    gap: "20px",
-                }}
-            >
-                <Link to="/">Assessment (Old Test)</Link>
-                <Link to="/dashboard">Dashboard</Link>
-                <Link to="/interview">Start Interview</Link>
-                <Link to="/history">History</Link>
+            <nav className="dh-nav">
+                <NavLink
+                    to="/"
+                    end
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                    Assessment (Old Test)
+                </NavLink>
+                <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                    Dashboard
+                </NavLink>
+                <NavLink
+                    to="/interview"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                    Start Interview
+                </NavLink>
+                <NavLink
+                    to="/history"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                    History
+                </NavLink>
             </nav>
 
             <Routes>

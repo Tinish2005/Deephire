@@ -23,80 +23,40 @@ function Dashboard() {
     }, []);
 
     if (loading) {
-        return <p>Loading dashboard...</p>;
+        return <div className="dh-page">Loading dashboard...</div>;
     }
 
     if (error) {
-        return <p>{error}</p>;
+        return <div className="dh-page dh-error">{error}</div>;
     }
 
     return (
-        <div style={{ padding: "20px" }}>
+        <div className="dh-page">
             <h2>Dashboard</h2>
 
-            <div
-                style={{
-                    display: "flex",
-                    gap: "20px",
-                    flexWrap: "wrap",
-                    marginTop: "20px",
-                }}
-            >
-                <div
-                    style={{
-                        padding: "20px",
-                        border: "1px solid #ddd",
-                        borderRadius: "10px",
-                        minWidth: "180px",
-                    }}
-                >
+            <div className="dh-stat-grid">
+                <div className="dh-stat-card">
                     <h3>Total Sessions</h3>
-                    <p style={{ fontSize: "28px" }}>
-                        {stats.total_sessions}
-                    </p>
+                    <p>{stats.total_sessions}</p>
                 </div>
 
-                <div
-                    style={{
-                        padding: "20px",
-                        border: "1px solid #ddd",
-                        borderRadius: "10px",
-                        minWidth: "180px",
-                    }}
-                >
+                <div className="dh-stat-card">
                     <h3>Total Reports</h3>
-                    <p style={{ fontSize: "28px" }}>
-                        {stats.total_reports}
-                    </p>
+                    <p>{stats.total_reports}</p>
                 </div>
 
-                <div
-                    style={{
-                        padding: "20px",
-                        border: "1px solid #ddd",
-                        borderRadius: "10px",
-                        minWidth: "180px",
-                    }}
-                >
+                <div className="dh-stat-card">
                     <h3>Average Score</h3>
-                    <p style={{ fontSize: "28px" }}>
-                        {stats.average_score}
-                    </p>
+                    <p>{stats.average_score}</p>
                 </div>
             </div>
 
-            <hr style={{ margin: "30px 0" }} />
-
-            <h3>Latest Candidate</h3>
-            <p>
-                Name: {stats.latest_candidate || "No sessions yet"}
-            </p>
-            <p>
-                Score: {stats.latest_score ?? "N/A"}
-            </p>
-            <p>
-                Recommendation: {stats.latest_recommendation || "N/A"}
-            </p>
+            <div className="dh-card">
+                <h3>Latest Candidate</h3>
+                <p>Name: {stats.latest_candidate || "No sessions yet"}</p>
+                <p>Score: {stats.latest_score ?? "N/A"}</p>
+                <p>Recommendation: {stats.latest_recommendation || "N/A"}</p>
+            </div>
         </div>
     );
 }
