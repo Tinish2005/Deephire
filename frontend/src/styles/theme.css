@@ -35,11 +35,12 @@ a { color: inherit; }
 /* ---------- Shell ---------- */
 .app-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: stretch; justify-content: space-between; gap: 16px; padding: 0 clamp(16px, 4vw, 40px); border-bottom: 1px solid var(--line); }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 800 1.3rem var(--display); font-stretch: 85%; letter-spacing: -0.01em; padding: 14px 0; }
-.brand-mark { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: 20px; height: 20px; }
-.brand-mark i:nth-child(1) { background: var(--resume); }
-.brand-mark i:nth-child(2) { background: var(--interview); }
-.brand-mark i:nth-child(3) { background: var(--voice); }
-.brand-mark i:nth-child(4) { background: var(--vision); }
+.brand-mark {
+    width: 34px;
+    height: 34px;
+    flex: none;
+    display: block;
+}
 .nav { display: flex; gap: 22px; }
 .nav a { display: flex; align-items: center; text-decoration: none; font-weight: 500; font-size: 0.95rem; color: var(--ink-2); border-bottom: 3px solid transparent; margin-bottom: -1px; }
 .nav a:hover { color: var(--ink); }
