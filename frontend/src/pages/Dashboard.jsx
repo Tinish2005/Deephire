@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { getDashboardStats } from "../services/dashboardService";
+import { ScoreRing } from "../components/ui";
+import { fmt, isStrong, num } from "../lib/signals";
 
 function Dashboard() {
     const [stats, setStats] = useState(null);
@@ -7,57 +10,62 @@ function Dashboard() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        const fetchStats = async () => {
+        (async () => {
             try {
-                const data = await getDashboardStats();
-                setStats(data);
+                setStats(await getDashboardStats());
             } catch (err) {
                 console.error(err);
-                setError("Failed to load dashboard stats.");
+                setError("Could not load dashboard stats. Check that the backend is running.");
             } finally {
                 setLoading(false);
             }
-        };
-
-        fetchStats();
+        })();
     }, []);
 
-    if (loading) {
-        return <div className="dh-page">Loading dashboard...</div>;
-    }
-
-    if (error) {
-        return <div className="dh-page dh-error">{error}</div>;
-    }
-
     return (
-        <div className="dh-page">
-            <h2>Dashboard</h2>
-
-            <div className="dh-stat-grid">
-                <div className="dh-stat-card">
-                    <h3>Total Sessions</h3>
-                    <p>{stats.total_sessions}</p>
-                </div>
-
-                <div className="dh-stat-card">
-                    <h3>Total Reports</h3>
-                    <p>{stats.total_reports}</p>
-                </div>
-
-                <div className="dh-stat-card">
-                    <h3>Average Score</h3>
-                    <p>{stats.average_score}</p>
-                </div>
+        <main className="page">
+            <div className="page-head">
+                <h2>Dashboard</h2>
+                <p>Live totals across every assessment run on this platform.</p>
             </div>
 
-            <div className="dh-card">
-                <h3>Latest Candidate</h3>
-                <p>Name: {stats.latest_candidate || "No sessions yet"}</p>
-                <p>Score: {stats.latest_score ?? "N/A"}</p>
-                <p>Recommendation: {stats.latest_recommendation || "N/A"}</p>
-            </div>
-        </div>
+            {loading && <div className="panel"><div className="skeleton" style={{ width: "50%" }} /><div className="skeleton" style={{ width: "80%" }} /></div>}
+            {error && <p className="msg msg-err" role="alert">{error}</p>}
+
+            {stats && (
+                <>
+                    <dl className="readout slab">
+                        <div><dt>Sessions</dt><dd>{fmt(stats.total_sessions)}</dd></div>
+                        <div><dt>Reports</dt><dd>{fmt(stats.total_reports)}</dd></div>
+                        <div><dt>Average score</dt><dd>{fmt(stats.average_score, 1)}</dd></div>
+                    </dl>
+
+                    <section className="panel" style={{ marginTop: 16 }}>
+                        <h3>Latest candidate</h3>
+                        {stats.latest_candidate ? (
+                            <div className="verdict">
+                                <ScoreRing value={stats.latest_score} size={110} label="Latest score" />
+                                <div className="verdict-text">
+                                    <h2 style={{ fontSize: "1.6rem", marginTop: 0 }}>{stats.latest_candidate}</h2>
+                                    {stats.latest_recommendation && (
+                                        <span className={`badge ${isStrong(stats.latest_recommendation) ? "badge-good" : "badge-warn"}`}>
+                                            {stats.latest_recommendation}
+                                        </span>
+                                    )}
+                                    {num(stats.latest_score) === null && <p>No score recorded yet.</p>}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="empty">
+                                <h3>No assessments yet</h3>
+                                <p>Run your first assessment to see results here.</p>
+                                <Link className="btn" to="/interview">Start an assessment</Link>
+                            </div>
+                        )}
+                    </section>
+                </>
+            )}
+        </main>
     );
 }
 

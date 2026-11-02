@@ -20,3 +20,5 @@ backend/app/audio/uploads/
 backend/app/vision/uploads/
 *.db
 backend/app/exports/
+
+/frontend/dist/

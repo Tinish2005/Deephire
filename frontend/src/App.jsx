@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
-import FusionTester from "./components/FusionTester";
+import { BrowserRouter, Routes, Route, NavLink, Link, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import InterviewFlow from "./pages/InterviewFlow";
 import History from "./pages/History";
@@ -7,39 +7,24 @@ import History from "./pages/History";
 function App() {
     return (
         <BrowserRouter>
-            <nav className="dh-nav">
-                <NavLink
-                    to="/"
-                    end
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                    Assessment (Old Test)
-                </NavLink>
-                <NavLink
-                    to="/dashboard"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                    Dashboard
-                </NavLink>
-                <NavLink
-                    to="/interview"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                    Start Interview
-                </NavLink>
-                <NavLink
-                    to="/history"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                    History
-                </NavLink>
-            </nav>
+            <header className="app-header slab">
+                <Link to="/" className="brand" aria-label="DeepHire home">
+                    <span className="brand-mark" aria-hidden="true"><i /><i /><i /><i /></span>
+                    DeepHire
+                </Link>
+                <nav className="nav" aria-label="Main">
+                    <NavLink to="/interview">Assessment</NavLink>
+                    <NavLink to="/dashboard">Dashboard</NavLink>
+                    <NavLink to="/history">History</NavLink>
+                </nav>
+            </header>
 
             <Routes>
-                <Route path="/" element={<FusionTester />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/interview" element={<InterviewFlow />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/history" element={<History />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </BrowserRouter>
     );
