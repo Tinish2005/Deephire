@@ -1,16 +1,17 @@
-# React + Vite
+# DeepHire frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React 19, Vite, React Router and Recharts. Talks to the FastAPI backend at `http://127.0.0.1:8000` (see `src/lib/signals.js` and `src/services/`).
 
-Currently, two official plugins are available:
+```bash
+npm install
+npm run dev     # http://localhost:5173
+npm run build
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Structure
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- `src/styles/theme.css`: design system (tokens, layout, components). One colour per signal: resume, interview, voice, vision.
+- `src/pages/`: `Home`, `InterviewFlow` (the assessment), `Dashboard`, `History`.
+- `src/components/flow/steps.jsx`: the five assessment steps.
+- `src/components/ui.jsx`: `ScoreRing`, `Meter`, `Spinner`.
+- `src/services/`: API calls (unchanged).

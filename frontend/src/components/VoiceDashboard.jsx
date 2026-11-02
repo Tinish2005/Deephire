@@ -1,28 +1,32 @@
-function VoiceDashboard({
-    analytics
-}) {
+import { ScoreRing, Meter } from "./ui";
+import { SIGNALS, fmt } from "../lib/signals";
 
-    if (!analytics) {
-        return null;
-    }
+function VoiceDashboard({ analytics }) {
+    if (!analytics) return null;
+    const color = SIGNALS.voice.color;
 
     return (
-        <div className="dh-card">
-            <h2>Voice Analytics</h2>
+        <section className="panel">
+            <div className="verdict">
+                <ScoreRing value={analytics.voice_score} size={110} color={color} label="Voice score" />
+                <div className="verdict-text">
+                    <h3>Voice score</h3>
+                    <p className="subtle">Based on transcription of your answer, speaking pace and filler words.</p>
+                </div>
+            </div>
 
-            <p>Transcript: "{analytics.transcript}"</p>
-            <p>Word Count: {analytics.word_count}</p>
-            <p>Duration: {analytics.duration_seconds} seconds</p>
-            <p>Speaking Rate: {analytics.speaking_rate_wpm} WPM</p>
-            <p>Filler Words Detected: {analytics.filler_word_count}</p>
+            {analytics.transcript && <blockquote className="transcript" style={{ marginTop: 20 }}>{analytics.transcript}</blockquote>}
 
-            <hr />
+            <dl className="stats">
+                <div><dt>Words</dt><dd>{fmt(analytics.word_count)}</dd></div>
+                <div><dt>Duration</dt><dd>{fmt(analytics.duration_seconds, 1)}s</dd></div>
+                <div><dt>Pace</dt><dd>{fmt(analytics.speaking_rate_wpm)} wpm</dd></div>
+                <div><dt>Filler words</dt><dd>{fmt(analytics.filler_word_count)}</dd></div>
+            </dl>
 
-            <p>Clarity Score: {analytics.clarity_score}</p>
-            <p>Pace Score: {analytics.pace_score}</p>
-
-            <h3>Voice Score: {analytics.voice_score}</h3>
-        </div>
+            <Meter label="Clarity" value={analytics.clarity_score} color={color} />
+            <Meter label="Pace" value={analytics.pace_score} color={color} />
+        </section>
     );
 }
 
